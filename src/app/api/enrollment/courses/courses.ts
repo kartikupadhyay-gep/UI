@@ -41,7 +41,7 @@ export class Courses {
         this.studentData = res;
       }, 
       error: (error: any) => {
-        alert(`Error: ${error}`);
+        console.log(`Error: ${error}`);
       }
     });
   }
@@ -52,7 +52,7 @@ export class Courses {
         this.courses = res;
       },
       error: (error: any) => {
-        alert(`Error: ${error}`);
+        console.log(`Error: ${error}`);
       }
     });
   }

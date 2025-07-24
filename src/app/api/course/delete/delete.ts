@@ -39,7 +39,7 @@ export class Delete {
           this.courseData = res;
         },
         error: (error: any) => {
-          alert(`Error fetching Course data: ${error.message}`);
+          console.log(`Error fetching Course data: ${error.message}`);
           this.router.navigate(['/Courses']); // Go back if Course not found
         }
       });
@@ -50,11 +50,11 @@ export class Delete {
     if (this.isAdmin) {
       this.courseService.deleteCourse(this.courseId).subscribe({
         next: (res: any) => {
-          alert(res);
+          console.log(res);
           this.router.navigate(['/allCourses']);
         },
         error: (error: any) => {
-          alert(`Error deleting Course: ${error.error.message || error.message}`);
+          console.log(`Error deleting Course: ${error.error.message || error.message}`);
         }
       });
     }

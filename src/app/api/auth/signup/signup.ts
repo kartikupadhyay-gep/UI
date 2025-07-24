@@ -43,12 +43,11 @@ export class Signup {
     if (this.isAdmin) {
       this.authService.signup(userData).subscribe({
         next: (res: IUser) => {
-          alert(`${res} for ${userData.username} as ${userData.role}`);
+          console.log(`${res} for ${userData.username} as ${userData.role}`);
           this.router.navigate(['']);
         }, 
         error: (error) => {
           console.error('Error creating user:', error);
-          alert('Error creating user: ' + error.error.message);
         }
       })
     }

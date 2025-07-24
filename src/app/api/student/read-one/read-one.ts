@@ -29,7 +29,6 @@ export class ReadOne {
       }, 
       error: (error: any) => {
         console.error('Error reading student:', error);
-        alert('Error reading student: ' + error.error.message);
       }
     })
   }

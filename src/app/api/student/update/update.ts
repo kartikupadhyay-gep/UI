@@ -38,7 +38,7 @@ export class Update implements OnInit {
           this.updatedStudent = res;
         },
         error: (error: any) => {
-          alert(`Error fetching student data: ${error.message}`);
+          console.log(`Error fetching student data: ${error.message}`);
         }
       });
     }
@@ -48,11 +48,11 @@ export class Update implements OnInit {
     if (this.isAdmin) {
       this.studentService.updateStudent(this.studentId, this.updatedStudent).subscribe({
         next: (res: any) => {
-          alert(`${res}`);
+          console.log(`${res}`);
           this.router.navigate(['/allStudents']);
         }, 
         error: (error: any) => {
-          alert(`Error updating student: ${error.error.message || error.message}`);
+          console.log(`Error updating student: ${error.error.message || error.message}`);
         }
       });
     }

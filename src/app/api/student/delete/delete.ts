@@ -39,7 +39,7 @@ export class Delete implements OnInit {
           this.studentData = res;
         },
         error: (error: any) => {
-          alert(`Error fetching student data: ${error.message}`);
+          console.log(`Error fetching student data: ${error.message}`);
           this.router.navigate(['/students']); // Go back if student not found
         }
       });
@@ -50,11 +50,11 @@ export class Delete implements OnInit {
     if (this.isAdmin) {
       this.studentService.deleteStudent(this.studentId).subscribe({
         next: (res: any) => {
-          alert(res);
+          console.log(res);
           this.router.navigate(['/allStudents']);
         },
         error: (error: any) => {
-          alert(`Error deleting student: ${error.error.message || error.message}`);
+          console.log(`Error deleting student: ${error.error.message || error.message}`);
         }
       });
     }

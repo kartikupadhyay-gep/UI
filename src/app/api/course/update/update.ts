@@ -38,7 +38,7 @@ export class Update {
           this.updatedCourse = res;
         },
         error: (error: any) => {
-          alert(`Error fetching Course data: ${error.message}`);
+          console.log(`Error fetching Course data: ${error.message}`);
         }
       });
     }

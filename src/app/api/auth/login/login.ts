@@ -26,7 +26,7 @@ export class Login {
         this.router.navigate(['']);
       }, 
       error: (err) => {
-        alert(`Login failed: ${err.message}`);
+        console.log(`Login failed: ${err.message}`);
       }
     });
   }

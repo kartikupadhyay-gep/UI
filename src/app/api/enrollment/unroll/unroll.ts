@@ -9,6 +9,8 @@ import { Enrollment } from '../../../services/enrollment';
 import { Course } from '../../../services/course';
 import { Student } from '../../../services/student';
 import { CookieService } from 'ngx-cookie-service';
+import { ICurrentuser } from '../../../interfaces/icurrentuser';
+import { Auth } from '../../../services/auth';
 
 @Component({
   selector: 'app-unroll',
@@ -20,6 +22,12 @@ export class Unroll implements OnInit {
   isAdmin: boolean = false;
   studentId: string = '';
   studentData: IStudent | null = null;
+
+  currUser: ICurrentuser = {
+    username: '',
+    userId: '',
+    identity: ''
+  }
   
   enrolledCourses: ICourse[] = [];
   coursesToBeUnenrolled: ICourse[] = [];
@@ -28,36 +36,43 @@ export class Unroll implements OnInit {
     private enrollmentService: Enrollment, 
     private studentService: Student, 
     private courseService: Course, 
+    private authService: Auth,
     private route: ActivatedRoute,
     private router: Router,
     private cookieService: CookieService
   ) {}
 
   ngOnInit(): void {
-    this.isAdmin = this.cookieService.get('role') === 'admin';
     this.studentId = this.route.snapshot.paramMap.get('id') || '';
+    
+    this.authService.currentUser().subscribe({
+      next: (res: ICurrentuser) => {
+        this.currUser = res;
+        this.isAdmin = this.cookieService.get('role') === 'admin' || res.userId === this.studentId;
 
-    if (this.isAdmin && this.studentId) {
-      // Use forkJoin to get both student and all courses data simultaneously
-      forkJoin({
-        student: this.studentService.getStudent(this.studentId),
-        allCourses: this.courseService.getCourses()
-      }).subscribe({
-        next: ({ student, allCourses }) => {
-          this.studentData = student;
-          const enrolledCourseIds = new Set(student.courses || []);
-          
-          // Filter the master list of courses to get full details for enrolled courses
-          this.enrolledCourses = allCourses.filter(course => enrolledCourseIds.has(course.courseId));
-        },
-        error: (err) => {
-          alert(`Error fetching initial data: ${err.message}`);
+        if (this.isAdmin && this.studentId) {
+          forkJoin({
+            student: this.studentService.getStudent(this.studentId),
+            allCourses: this.courseService.getCourses()
+          }).subscribe({
+            next: ({ student, allCourses }) => {
+              this.studentData = student;
+              const enrolledCourseIds = new Set(student.courses || []);
+              this.enrolledCourses = allCourses.filter(course => enrolledCourseIds.has(course.courseId));
+            },
+            error: (err) => {
+              console.log(`Error fetching initial data: ${err.message}`);
+            }
+          });
         }
-      });
-    }
+      },
+      error: (error: any) => {
+        console.log(`Error: ${error}`);
+      }
+    });
+
   }
 
-  // Handles the drag-and-drop event
   drop(event: CdkDragDrop<ICourse[]>) {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
@@ -71,10 +86,9 @@ export class Unroll implements OnInit {
     }
   }
 
-  // Submits the un-enrollment request
   onSubmit(): void {
     if (this.coursesToBeUnenrolled.length === 0) {
-      alert('Please select at least one course to un-enroll.');
+      console.log('Please select at least one course to un-enroll.');
       return;
     }
 
@@ -82,11 +96,11 @@ export class Unroll implements OnInit {
 
     this.enrollmentService.unrollStudent(this.studentId, courseIdsToUnenroll).subscribe({
       next: (res) => {
-        alert(res);
+        console.log(res);
         this.router.navigate(['/', this.studentId, 'courses']);
       },
       error: (err) => {
-        alert(`Un-enrollment failed: ${err.error.message || err.message}`);
+        console.log(`Un-enrollment failed: ${err.error.message || err.message}`);
       }
     });
   }

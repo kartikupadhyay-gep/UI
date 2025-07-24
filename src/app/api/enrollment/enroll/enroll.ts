@@ -11,6 +11,7 @@ import { Course } from '../../../services/course';
 import { Student } from '../../../services/student';
 import { Auth } from '../../../services/auth';
 import { CookieService } from 'ngx-cookie-service';
+import { ICurrentuser } from '../../../interfaces/icurrentuser';
 
 @Component({
   selector: 'app-enroll',
@@ -22,6 +23,12 @@ export class Enroll implements OnInit {
   isAdmin: boolean = false;
   studentId: string = '';
   studentData: IStudent | null = null;
+
+  currUser: ICurrentuser = {
+    username: '',
+    userId: '',
+    identity: ''
+  }
   
   allCourses: ICourse[] = [];
   availableCourses: ICourse[] = [];
@@ -38,28 +45,37 @@ export class Enroll implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.isAdmin = this.cookieService.get('role') === 'admin';
     this.studentId = this.route.snapshot.paramMap.get('id') || '';
+    
+    this.authService.currentUser().subscribe({
+      next: (res: ICurrentuser) => {
+        this.currUser = res;
+        this.isAdmin = this.cookieService.get('role') === 'admin' || res.userId === this.studentId;
 
-    if (this.isAdmin && this.studentId) {
-      forkJoin({
-        student: this.studentService.getStudent(this.studentId),
-        courses: this.courseService.getCourses()
-      }).subscribe({
-        next: ({ student, courses }) => {
-          this.studentData = student;
-          this.allCourses = courses;
-          if (student.courses && student.courses?.length > 0 ) {
-            this.availableCourses = this.allCourses.filter(course => !student.courses?.includes(course.courseId));
-          } else {
-            this.availableCourses = this.allCourses;
-          } 
-        },
-        error: (err) => {
-          alert(`Error fetching initial data: ${err.message}`);
+        if (this.isAdmin && this.studentId) {
+          forkJoin({
+            student: this.studentService.getStudent(this.studentId),
+            courses: this.courseService.getCourses()
+          }).subscribe({
+            next: ({ student, courses }) => {
+              this.studentData = student;
+              this.allCourses = courses;
+              if (student.courses && student.courses?.length > 0 ) {
+                this.availableCourses = this.allCourses.filter(course => !student.courses?.includes(course.courseId));
+              } else {
+                this.availableCourses = this.allCourses;
+              } 
+            },
+            error: (err) => {
+              console.log(`Error fetching initial data: ${err.message}`);
+            }
+          });
         }
-      });
-    }
+      },
+      error: (error: any) => {
+        console.log(`Error: ${error}`);
+      }
+    });
   }
 
   drop(event: CdkDragDrop<ICourse[]>) {
@@ -77,7 +93,7 @@ export class Enroll implements OnInit {
 
   onSubmit(): void {
     if (this.coursesToBeEnrolled.length === 0) {
-      alert('Please select at least one course to enroll.');
+      console.log('Please select at least one course to enroll.');
       return;
     }
 
@@ -85,11 +101,11 @@ export class Enroll implements OnInit {
 
     this.enrollmentService.enrollStudent(this.studentId, courseIdsToEnroll).subscribe({
       next: (res) => {
-        alert(res);
+        console.log(res);
         this.router.navigate(['/', this.studentId, 'courses']);
       },
       error: (err) => {
-        alert(`Enrollment failed: ${err.error.message || err.message}`);
+        console.log(`Enrollment failed: ${err.error.message || err.message}`);
       }
     });
   }

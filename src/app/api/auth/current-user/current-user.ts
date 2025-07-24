@@ -22,14 +22,12 @@ export class CurrentUser {
   ngOnInit() {
     this.authService.currentUser().subscribe({
       next: (data) => {
-        console.log('Current user data:', data);
         this.userData.username = data.username;
         this.userData.identity = data.identity || 'Viewer';
         this.userData.userId = data.userId || 'N/A';
       },
       error: (err) => {
         console.error('Error fetching current user:', err);
-        alert('Failed to fetch current user data.');
       }
     });
   }

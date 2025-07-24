@@ -21,7 +21,7 @@ export class Read {
       }, 
       error: (error: any) => {
         console.error('Error reading students:', error);
-        alert('Error reading students: ' + error.error.message);
+        console.log('Error reading students: ' + error.error.message);
       }
     })
   }

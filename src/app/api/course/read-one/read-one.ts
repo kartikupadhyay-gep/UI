@@ -30,7 +30,7 @@ export class ReadOne {
         console.log(res);
       }, 
       error: (error: any) => {
-        alert(`${error}`);
+        console.error(`${error}`);
       }
     });
   }

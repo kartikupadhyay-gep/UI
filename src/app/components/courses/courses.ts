@@ -22,7 +22,7 @@ export class Courses {
         }
       }, 
       error: (error: any) => {
-        alert(`${error.status} + \n + ${error.statusText} + \n + ${error.message}`);
+        console.log(`${error.status} + \n + ${error.statusText} + \n + ${error.message}`);
       }
     })
   }

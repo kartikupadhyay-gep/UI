@@ -33,12 +33,12 @@ export class Create {
     if (this.isAdmin) {
       this.studentService.addStudent(this.studentData).subscribe({
         next: (res: any) => {
-          alert(`${res} for ${this.studentData.name} as ${this.studentData.studentId}`);
+          console.log(`${res} for ${this.studentData.name} as ${this.studentData.studentId}`);
           this.router.navigate(['/allStudents']);
         }, 
         error: (error: any) => {
           console.error('Error creating student:', error);
-          alert('Error creating student: ' + error.error.message);
+          console.log('Error creating student: ' + error.error.message);
         }
       });
     }

@@ -20,7 +20,7 @@ export class Read {
         this.courses = res;
       },
       error: (error: any) => {
-        alert(`Failed to fetch the courses: ${error}`);
+        console.log(`Failed to fetch the courses: ${error}`);
       }
     });
   }

@@ -11,13 +11,10 @@ import { CookieService } from 'ngx-cookie-service';
   styleUrls: ['./enrollment.css']
 })
 export class Enrollment implements OnInit {
-  isAdmin: boolean = false;
 
   constructor(private authService: Auth, private router: Router, private cookieService: CookieService) {}
 
-  ngOnInit(): void {
-    this.isAdmin = this.cookieService.get('role') === 'admin';
-  }
+  ngOnInit(): void {}
 
   viewCourses(studentId: string): void {
     this.router.navigate(['/', studentId, 'courses']);

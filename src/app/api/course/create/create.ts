@@ -31,12 +31,11 @@ export class Create {
     if (this.isAdmin) {
       this.courseService.addCourse(this.courseData).subscribe({
         next: (res: any) => {
-          alert(`${res} for ${this.courseData.title} as ${this.courseData.courseId}`);
+          console.log(`${res} for ${this.courseData.title} as ${this.courseData.courseId}`);
           this.router.navigate(['/allCourses']);
         }, 
         error: (error: any) => {
           console.error('Error creating student:', error);
-          alert('Error creating student: ' + error.error.message);
         }
       });
     }

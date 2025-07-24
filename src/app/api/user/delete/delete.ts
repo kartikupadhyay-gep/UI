@@ -37,6 +37,9 @@ export class Delete {
           this.authService.getUser(this.userId).subscribe({
             next: (user: any) => {
               this.userData = user;
+            }, 
+            error: (error: any) => {
+              console.error(`Error Deleting user: ${error}`);
             }
           })
         }

@@ -39,7 +39,6 @@ export class Home {
     this.cookieService.deleteAll();
     this.isLoggedIn = false;
     this.isAdmin = false;
-    this.router.navigate(['']);
-    alert('You have been logged out successfully.');
+    this.router.navigate(['/login']);
   }
 }
