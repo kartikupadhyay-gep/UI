@@ -74,26 +74,18 @@ A full-featured student management web application with role-based authorization
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/student-management-system.git
-   cd student-management-system
+   git clone https://github.com/kartikupadhyay-gep/UI.git
+   cd UI
    ```
 
 2. Install dependencies:
    ```bash
    npm install
-   # or
-   pip install -r requirements.txt  # if using Python backend
-   ```
-
-3. Set up your `.env` file:
-   ```env
-   MONGO_URI=your_mongodb_connection_string
-   JWT_SECRET=your_jwt_secret
    ```
 
 4. Run the application:
    ```bash
-   npm run start
+   ng serve -o
    # or
    python app.py
    ```
