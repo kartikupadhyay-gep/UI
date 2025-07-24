@@ -1,0 +1,104 @@
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-7 col-md-9">
+
+      <!-- Admin View: Show the form if isAdmin is true -->
+      <div *ngIf="isAdmin; else nonAdminBlock">
+        <div class="card border-0 shadow-sm">
+          <div class="card-header bg-transparent py-3 border-0">
+            <h2 class="h4 fw-semibold">Add New Course</h2>
+          </div>
+          <div class="card-body p-4">
+            <form (ngSubmit)="onSubmit()" #courseForm="ngForm" novalidate>
+              
+              <!-- Course Title -->
+              <div class="mb-3">
+                <label for="title" class="form-label">Course Title</label>
+                <input type="text" 
+                       class="form-control" 
+                       id="title" 
+                       name="title" 
+                       required 
+                       [(ngModel)]="courseData.title"
+                       #title="ngModel"
+                       [class.is-invalid]="title.invalid && (title.dirty || title.touched)">
+                <div *ngIf="title.invalid && (title.dirty || title.touched)" class="invalid-feedback">
+                  Course Title is required.
+                </div>
+              </div>
+
+              <!-- Course ID -->
+              <div class="mb-3">
+                <label for="courseId" class="form-label">Course ID</label>
+                <input type="text" 
+                       class="form-control" 
+                       id="courseId" 
+                       name="courseId" 
+                       required 
+                       [(ngModel)]="courseData.courseId"
+                       #courseId="ngModel"
+                       [class.is-invalid]="courseId.invalid && (courseId.dirty || courseId.touched)">
+                <div *ngIf="courseId.invalid && (courseId.dirty || courseId.touched)" class="invalid-feedback">
+                  Course ID is required.
+                </div>
+              </div>
+
+              <!-- Credits -->
+              <div class="mb-3">
+                <label for="credits" class="form-label">Credits</label>
+                <input type="number" 
+                       class="form-control" 
+                       id="credits" 
+                       name="credits" 
+                       required 
+                       min="0"
+                       [(ngModel)]="courseData.credits"
+                       #credits="ngModel"
+                       [class.is-invalid]="credits.invalid && (credits.dirty || credits.touched)">
+                <div *ngIf="credits.invalid && (credits.dirty || credits.touched)" class="invalid-feedback">
+                  Please enter a valid number of credits.
+                </div>
+              </div>
+
+              <!-- Description -->
+              <div class="mb-4">
+                <label for="description" class="form-label">Description</label>
+                <textarea class="form-control" 
+                          id="description" 
+                          name="description" 
+                          rows="3"
+                          required
+                          [(ngModel)]="courseData.description"
+                          #description="ngModel"
+                          [class.is-invalid]="description.invalid && (description.dirty || description.touched)"></textarea>
+                <div *ngIf="description.invalid && (description.dirty || description.touched)" class="invalid-feedback">
+                  A description is required.
+                </div>
+              </div>
+
+              <div class="d-grid">
+                <button type="submit" class="btn btn-primary" [disabled]="courseForm.invalid">
+                  Add Course
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Non-Admin View: Show access denied message -->
+      <ng-template #nonAdminBlock>
+        <div class="alert alert-danger text-center" role="alert">
+          <h4 class="alert-heading">
+            <i class="bi bi-slash-circle-fill"></i> Access Denied
+          </h4>
+          <p>You do not have permission to add new courses. This action is restricted to administrators.</p>
+        </div>
+      </ng-template>
+
+    </div>
+  </div>
+</div>

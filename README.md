@@ -1,59 +1,123 @@
-# UI
+# Student Management System
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.0.3.
+A full-featured student management web application with role-based authorization, JWT authentication, and MongoDB integration. Built to handle courses, students, and enrollments efficiently, it provides secure access control for Admins, Students, and Viewers.
 
-## Development server
+## Features
 
-To start a local development server, run:
+### Role-Based Authorization
 
-```bash
-ng serve
-```
+- **Admin**
+  - Full CRUD operations on:
+    - Users
+    - Students
+    - Courses
+    - Enrollment Schemes
+  - Can view and manage all data in the system.
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+- **Student**
+  - Can enroll and unroll in courses.
+  - Can view their own enrolled courses.
 
-## Code scaffolding
+- **Viewer**
+  - Read-only access to:
+    - List of all students and courses
+    - Enrolled courses for any student
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+### JWT-Based Authentication
 
-```bash
-ng generate component component-name
-```
+- Secure login and signup functionality.
+- Only Admins can create new user accounts.
+- JWT token is required to access protected routes.
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+### Student & Course Management
 
-```bash
-ng generate --help
-```
+- View all students and courses.
+- View single student or course details.
+- Search functionality available for users.
 
-## Building
+### User Profile Management
 
-To build the project run:
+- Users can update:
+  - Username
+  - Password
 
-```bash
-ng build
-```
+### Unique User Identification
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+- Every user is assigned a unique `USER_ID`.
+- If the user is a student, this ID is mapped to their Student ID for tracking enrollments.
 
-## Running unit tests
+### Tech Stack
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+- **Backend Database**: MongoDB
+  - Collections:
+    - `Users`
+    - `Students`
+    - `Courses`
+- **Authentication**: JWT (JSON Web Tokens)
+- **Authorization**: Role-based
 
-```bash
-ng test
-```
+## Collections & Structure
 
-## Running end-to-end tests
+- **Users Collection**
+  - Stores credentials, role, and metadata for all users.
+- **Students Collection**
+  - Contains student details and their mapped `USER_ID`.
+- **Courses Collection**
+  - Course metadata and information.
 
-For end-to-end (e2e) testing, run:
+## Search & Permissions
 
-```bash
-ng e2e
-```
+- Search available for all users (limited by their role).
+- Only Admins and the logged-in user can update profile information.
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+## Installation & Setup
 
-## Additional Resources
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-username/student-management-system.git
+   cd student-management-system
+   ```
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+2. Install dependencies:
+   ```bash
+   npm install
+   # or
+   pip install -r requirements.txt  # if using Python backend
+   ```
+
+3. Set up your `.env` file:
+   ```env
+   MONGO_URI=your_mongodb_connection_string
+   JWT_SECRET=your_jwt_secret
+   ```
+
+4. Run the application:
+   ```bash
+   npm run start
+   # or
+   python app.py
+   ```
+
+## API Endpoints (Basic Overview)
+
+| Method | Endpoint               | Access  | Description                  |
+|--------|------------------------|---------|------------------------------|
+| POST   | `/login`               | Public  | Authenticate user            |
+| POST   | `/signup`              | Admin   | Register new user            |
+| GET    | `/users`               | Admin   | View all users               |
+| GET    | `/students`            | All     | List all students            |
+| GET    | `/courses`             | All     | List all courses             |
+| POST   | `/enroll/:courseId`    | Student | Enroll in a course           |
+| DELETE | `/unroll/:courseId`    | Student | Unroll from a course         |
+| PUT    | `/user/update-profile` | User    | Update username/password     |
+
+## Future Enhancements
+
+- Admin dashboard UI
+- Course scheduling and deadlines
+- Notification system for enrollment updates
+- Graphs for analytics (enrollments, active students)
+
+## License
+
+MIT License © 2025 [Kartik Upadhyay]

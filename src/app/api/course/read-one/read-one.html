@@ -1,0 +1,59 @@
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8 col-md-10">
+
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="h4 fw-semibold mb-0">Course Details</h2>
+        <a routerLink="/courses" class="btn btn-outline-secondary btn-sm">
+          <i class="bi bi-arrow-left me-1"></i> Back to Menu
+        </a>
+      </div>
+
+      <!-- This block is shown if the course object is valid -->
+      <div *ngIf="course && course.id; else notFoundBlock">
+        <div class="card border-0 shadow-sm">
+          <div class="card-body p-4">
+            <dl class="row mb-0">
+              <dt class="col-sm-3 text-muted">ID</dt>
+              <dd class="col-sm-9 font-monospace small">{{ course.id }}</dd>
+
+              <hr class="my-3">
+
+              <dt class="col-sm-3 text-muted">Course ID</dt>
+              <dd class="col-sm-9 font-monospace">{{ course.courseId }}</dd>
+              
+              <hr class="my-3">
+
+              <dt class="col-sm-3 text-muted">Title</dt>
+              <dd class="col-sm-9 fw-bold">{{ course.title }}</dd>
+
+              <hr class="my-3">
+
+              <dt class="col-sm-3 text-muted">Credits</dt>
+              <dd class="col-sm-9">{{ course.credits }}</dd>
+
+              <hr class="my-3">
+
+              <dt class="col-sm-3 text-muted">Description</dt>
+              <dd class="col-sm-9">{{ course.description }}</dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+
+      <!-- This block is shown if the course is not found -->
+      <ng-template #notFoundBlock>
+        <div class="alert alert-warning text-center" role="alert">
+          <h4 class="alert-heading">
+            <i class="bi bi-exclamation-triangle-fill"></i> Course Not Found
+          </h4>
+          <p>The course with the specified ID could not be found.</p>
+        </div>
+      </ng-template>
+
+    </div>
+  </div>
+</div>

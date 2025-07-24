@@ -1,0 +1,48 @@
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+<div class="container my-5">
+
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="h4 fw-semibold mb-0">All Courses</h2>
+    <a routerLink="/courses" class="btn btn-outline-secondary btn-sm">
+      <i class="bi bi-arrow-left me-1"></i> Back to Menu
+    </a>
+  </div>
+
+  <!-- This block is shown if there are courses to display -->
+  <div *ngIf="courses.length > 0; else noCoursesBlock">
+    <div class="card border-0 shadow-sm">
+      <div class="table-responsive">
+        <table class="table table-hover table-borderless align-middle mb-0">
+          <thead class="border-bottom">
+            <tr>
+              <th scope="col" class="p-3">ID</th>
+              <th scope="col" class="p-3">Course ID</th>
+              <th scope="col" class="p-3">Title</th>
+              <th scope="col" class="p-3">Credits</th>
+              <th scope="col" class="p-3">Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let course of courses">
+              <td class="p-3 font-monospace small text-truncate">{{ course.id }}</td>
+              <td class="p-3 font-monospace" style="width: 120px;">{{ course.courseId }}</td>
+              <td class="p-3 fw-bold">{{ course.title }}</td>
+              <td class="p-3">{{ course.credits }}</td>
+              <td class="p-3 text-muted small">{{ course.description }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- This block is shown if the courses array is empty -->
+  <ng-template #noCoursesBlock>
+    <div class="text-center p-5 bg-light rounded">
+      <p class="mb-0">No courses found.</p>
+    </div>
+  </ng-template>
+
+</div>
