@@ -1,15 +1,16 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { EnvironmentInjector, Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
 import { IUser } from '../interfaces/iuser';
 import { ICurrentuser } from '../interfaces/icurrentuser';
 import { CookieService } from 'ngx-cookie-service';
+import { environment as env } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class Auth {
-  url = 'https://localhost:7038/api/auth/users/';
+  url = env.apiUrl  + '/api/auth/users/';
 
   httpOptions = {headers: new HttpHeaders({'Content-Type':'application/json'})};
   constructor(private httpClient: HttpClient, private cookieService: CookieService) {}

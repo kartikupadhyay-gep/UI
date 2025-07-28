@@ -2,12 +2,13 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
 import { IStudent } from '../interfaces/istudent';
+import { environment as env } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class Student {
-  url = "https://localhost:7038/api/students/";
+  url = env.apiUrl + "/api/students/";
 
   httpOptions = {headers: new HttpHeaders({'Content-Type':'application/json'})};
   constructor(private httpClient: HttpClient) {}
